@@ -14,6 +14,6 @@
   ],
   "env": {
     "MONGODB_URI": "mongodb+srv://universaltechhub:universaltechhub@cluster0.sqvjk.mongodb.net/vslas?retryWrites=true&w=majority",
-    "JWT_SECRET": "your_jwt_secret_here"
+    "JWT_SECRET": "vsla_jwt_secret_key_2024"
   }
 } 

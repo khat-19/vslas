@@ -58,6 +58,9 @@ app.use(cors({
   optionsSuccessStatus: 204
 }));
 
+// Important: Add this back
+app.use(express.json());
+
 // Handle OPTIONS requests
 app.options('*', cors());
 
