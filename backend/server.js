@@ -13,8 +13,7 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:5174',
-    'https://vsla.vercel.app',
-    'https://vsla-backend.vercel.app'
+    'https://vsla.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -23,27 +22,20 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check route
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'API is running',
-    timestamp: new Date(),
-    status: 'healthy',
-    environment: process.env.NODE_ENV || 'development',
-    database: 'MongoDB Atlas',
-    endpoints: {
-      register: '/api/auth/register',
-      login: '/api/auth/login'
-    }
-  });
-});
-
 // Routes
 app.use('/api/auth', authRoutes);
 
+// API health check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: 'API route not found' });
 });
 
 const PORT = process.env.PORT || 5000;
