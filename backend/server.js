@@ -11,8 +11,12 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5174', 'https://vsla.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: [
+    'http://localhost:5174',
+    'https://vsla.vercel.app',
+    'https://vsla-backend.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));

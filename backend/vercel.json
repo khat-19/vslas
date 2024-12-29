@@ -13,7 +13,13 @@
     },
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 } 
