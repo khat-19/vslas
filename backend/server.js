@@ -21,7 +21,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check route
 app.get('/', (req, res) => {
-  res.json({ message: 'API is running' });
+  res.json({ 
+    message: 'API is running',
+    timestamp: new Date(),
+    status: 'healthy',
+    environment: process.env.NODE_ENV || 'development',
+    database: 'MongoDB Atlas',
+    endpoints: {
+      register: '/api/auth/register',
+      login: '/api/auth/login'
+    }
+  });
 });
 
 // Routes
