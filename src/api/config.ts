@@ -1,4 +1,4 @@
-const VERCEL_URL = 'https://vsla-ah2xqsovn-khat19s-projects.vercel.app/api';
+const VERCEL_URL = 'https://vsla-kw2vci44t-khat19s-projects.vercel.app/api';
 const LOCAL_URL = 'http://localhost:5000/api';
 
 export const API_URL = process.env.NODE_ENV === 'production' ? VERCEL_URL : LOCAL_URL;

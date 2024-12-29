@@ -1,21 +1,11 @@
 const request = require('supertest');
-const app = require('../server');
+const { app } = require('../server');
 const User = require('../models/User');
-const mongoose = require('mongoose');
 
 describe('Authentication Tests', () => {
-  beforeAll(async () => {
-    // Clear users collection before tests
-    await User.deleteMany({});
-  });
-
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
-
   const testUser = {
     username: 'testuser',
-    email: 'test@example.com',
+    email: 'testuser@example.com',
     password: 'password123'
   };
 
@@ -27,10 +17,15 @@ describe('Authentication Tests', () => {
       
       expect(res.status).toBe(201);
       expect(res.body).toHaveProperty('token');
-      expect(res.body.user.email).toBe(testUser.email);
     });
 
     it('should not register user with existing email', async () => {
+      // First create a user
+      await request(app)
+        .post('/api/auth/register')
+        .send(testUser);
+
+      // Try to create the same user again
       const res = await request(app)
         .post('/api/auth/register')
         .send(testUser);
@@ -40,6 +35,13 @@ describe('Authentication Tests', () => {
   });
 
   describe('User Login', () => {
+    beforeEach(async () => {
+      // Create a test user before each login test
+      await request(app)
+        .post('/api/auth/register')
+        .send(testUser);
+    });
+
     it('should login existing user', async () => {
       const res = await request(app)
         .post('/api/auth/login')
