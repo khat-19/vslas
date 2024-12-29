@@ -45,19 +45,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log('Login attempt for email:', email);
 
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      console.log('User not found');
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // Check password
     const isMatch = await user.matchPassword(password);
-    console.log('Password match:', isMatch);
-    
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -77,7 +73,6 @@ const login = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
     res.status(500).json({
       success: false,
       message: error.message

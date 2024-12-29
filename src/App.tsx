@@ -1,12 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { LoginForm } from './components/LoginForm';
-import { Dashboard } from './components/Dashboard';
-import { isAuthenticated } from './lib/auth';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { LoginForm } from "./components/LoginForm";
+import { Dashboard } from "./components/Dashboard";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  if (!isAuthenticated()) {
+  const { token } = useAuth();
+
+  if (!token) {
     return <Navigate to="/login" replace />;
   }
   return <>{children}</>;
@@ -14,20 +21,22 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route
-          path="/dashboard/*"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route
+            path="/dashboard/*"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
