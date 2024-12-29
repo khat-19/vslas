@@ -11,5 +11,8 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ]
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://universaltechhub:universaltechhub@cluster0.sqvjk.mongodb.net/vslas?retryWrites=true&w=majority"
+  }
 } 
