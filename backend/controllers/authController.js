@@ -10,9 +10,9 @@ const generateToken = (id) => {
 
 // @desc    Register user
 // @route   POST /api/auth/register
-exports.register = async (req, res, next) => {
+const register = async (req, res, next) => {
   try {
-    console.log('Register request body:', req.body); // Add logging
+    console.log('Register request body:', req.body);
 
     const { username, email, password } = req.body;
 
@@ -53,7 +53,7 @@ exports.register = async (req, res, next) => {
       }
     });
   } catch (error) {
-    console.error('Registration error:', error); // Add logging
+    console.error('Registration error:', error);
     next(error);
   }
 };
@@ -95,4 +95,8 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login };
+// Export both functions
+module.exports = {
+  register,
+  login
+};

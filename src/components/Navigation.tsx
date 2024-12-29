@@ -4,7 +4,7 @@ export function Navigation() {
   const { user, logout } = useAuth();
 
   return (
-    <nav className="bg-white shadow">
+    <nav className="main-navigation bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">

@@ -1,4 +1,4 @@
-const VERCEL_URL = 'https://vsla-backend-xxxx.vercel.app/api';
+const VERCEL_URL = 'http://localhost:5000/api';
 const LOCAL_URL = 'http://localhost:5000/api';
 
 export const API_URL = process.env.NODE_ENV === 'production' ? VERCEL_URL : LOCAL_URL;

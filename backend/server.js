@@ -8,6 +8,15 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 let server;
 
+// Add this at the top of the file
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (error) => {
+  console.error('Unhandled Rejection:', error);
+});
+
 // Error handling middleware
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
@@ -46,16 +55,11 @@ const errorHandler = (err, req, res, next) => {
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'http://localhost:5174',
-    'https://vsla.vercel.app',
-    'https://vsla-kw2vci44t-khat19s-projects.vercel.app',
-    '*' // Temporarily allow all origins for testing
+    'http://localhost:5174'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: true,
-  optionsSuccessStatus: 204
+  credentials: true
 }));
 
 // Important: Add this back
@@ -67,15 +71,27 @@ app.options('*', cors());
 // Request logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-  console.log('Headers:', req.headers);
-  console.log('Body:', req.body);
+  // Only log headers and body in development
+  if (process.env.NODE_ENV === 'development') {
+    // Remove sensitive info from headers before logging
+    const safeHeaders = { ...req.headers };
+    delete safeHeaders.authorization;
+    delete safeHeaders.cookie;
+    console.log('Headers:', safeHeaders);
+    
+    // Don't log body for routes containing password
+    if (!req.path.includes('auth')) {
+      console.log('Body:', req.body);
+    }
+  }
   next();
 });
 
 // Connect to database with error handling
 connectDB().catch(err => {
-  console.error('Database connection failed:', err);
-  process.exit(1);
+  console.error('MongoDB connection error:', err);
+  // Don't exit the process, just log the error
+  // process.exit(1);
 });
 
 // Routes
@@ -130,10 +146,14 @@ const PORT = process.env.PORT || 5000;
 
 // For Vercel, we need to export the app
 if (process.env.NODE_ENV !== 'test') {
-  server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV}`);
-  });
+  try {
+    server = app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV}`);
+    });
+  } catch (error) {
+    console.error('Server startup error:', error);
+  }
 }
 
 // Graceful shutdown
