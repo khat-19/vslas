@@ -55,19 +55,19 @@ export function Dashboard() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const location = useLocation();
-  const [stats, setStats] = useState<DashboardStats>({
+  const [stats] = useState<DashboardStats>({
     totalRevenue: 54375,
     totalUsers: 2345,
     totalSales: 1247,
     growth: "+24.5%",
   });
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([
+  const [recentActivity] = useState<RecentActivity[]>([
     { type: "New user registered", time: "2 minutes ago" },
     { type: "New user registered", time: "2 minutes ago" },
     { type: "New user registered", time: "2 minutes ago" },
   ]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [notifications, setNotifications] = useState(1);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [notifications] = useState(1);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const isActiveRoute = (path: string) => {

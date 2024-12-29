@@ -54,9 +54,14 @@ export function LoginForm() {
           </div>
           <div className="mt-8 flex justify-center md:justify-start">
             <img
-              src="/vsla-logo.png"
+              src="src/img/vslas.jpg"
               alt="VSLA Logo"
               className="h-12 w-auto md:h-16"
+              style={{
+                width: "50%",
+                height: "auto",
+                borderRadius: "200px",
+              }}
             />
           </div>
         </div>
