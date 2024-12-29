@@ -19,8 +19,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ message: 'API is running' });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 const PORT = process.env.PORT || 5000;
 
