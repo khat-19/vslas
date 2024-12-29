@@ -22,7 +22,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 
 // API health check
@@ -31,11 +31,6 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     environment: process.env.NODE_ENV || 'development'
   });
-});
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: 'API route not found' });
 });
 
 const PORT = process.env.PORT || 5000;
